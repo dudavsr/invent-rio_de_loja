@@ -7,16 +7,66 @@
 using namespace std;
 
 class Produto {
+public:
     string nome;
-    float preco;
-    int estoque;
+    double preco;
+    int quantidade;
 
     //construtor
-    Produto(string n, float p, int e) : nome(n), preco(p), estoque(e) {}
+    Produto(string n, double p, int q) : nome(n), preco(p), quantidade(q) {}
+
+    void exibir() const{
+        cout << nome << preco << quantidade << endl;
+    }
 };
 
-int main() {
-    
-    vector<Produto> produtos;
+//buscar produto por nome
+void buscarProduto(const vector<Produto>& estoque){
+    string busca;
+    cout << "\nDigite o nome do produto que deseja buscar: ";
+    cin >> busca;
+    bool encontrado = false;
 
+    for (const auto& p : estoque) {
+        if (p.nome == busca){
+            p.exibir();
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        cout << "Produto não encontrado.\n";
+    }
+}
+
+int main() {
+    string nome;
+    double preco;
+    int quantidade;
+
+    //vetor: lista de produtos
+    vector<Produto> estoque;
+
+    //adicionar produtos direto no vetor
+    while (true) {
+        cout << "\nProduto: (use 'fim' para encerrar)";
+        cin >> nome;
+        if (nome == "fim") break;
+
+        cout << "Preço: ";
+        cin >> preco;
+        
+        cout << "Quantidade: ";
+        cin >> quantidade;
+
+        estoque.emplace_back(nome, preco, quantidade);
+    }
+
+    //buscar produto por nome
+    buscarProduto(estoque);
+
+    //list: histórico de produtos vendidos
+    list<Produto> vendidos;
+    
+    return 0;
 }
